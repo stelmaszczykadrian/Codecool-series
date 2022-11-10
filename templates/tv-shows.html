@@ -1,0 +1,62 @@
+{% extends 'layout.html' %}
+{% block body %}
+    <section>
+        <script src="../static/js/embed-youtube.js" defer></script>
+        {% if video_id %}
+            <script>videoId = "{{ video_id }}"</script>
+        {% else %}
+            <div></div>
+        {% endif %}
+        <div class="card detailed-view">
+            {% for show in shows %}
+                <div class="row">
+                <div class="poster col col-third" id="player"></div>
+                    <div class="col col-twothird">
+                        <h2>{{ show.title }}</h2>
+                        <p class="small grayed">
+                            {% if show['runtime'] // 60 != 0 %}
+                                {{ show['runtime'] // 60 }}h
+                            {% endif %}
+                            {% if show['runtime'] % 60 != 0 %}
+                                {{ show['runtime'] % 60 }}min
+                            {% endif %}
+                            <span class="separator">|</span>{{ show.genres }}</p>
+                        <p>{{ show.overview }}</p>
+                    </div>
+                </div>
+                <div>
+                <p><b>Rating:</b>&nbsp;{{ show.rating }} ☆</p>
+            {% endfor %}
+            <p><b>Stars:</b>&nbsp;{{ characters }}</p>
+            </div>
+        </div>
+    </section>
+    <section>
+        <h1 class="title text-center">Seasons</h1>
+        <div class="card">
+            <table>
+                <thead>
+                <tr>
+                    <th>&nbsp</th>
+                    <th>Title</th>
+                    <th class="action-column">Overview</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for season in seasons %}
+                    <tr>
+                        <td>{{ season['season_number'] }}</td>
+                        <td>{{ season['title'] }}</td>
+                        {% if season.overview %}
+                            <td>{{ season['overview'] }}</td>
+                        {% else %}
+                            <td></td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+{% endblock %}

@@ -38,3 +38,26 @@ table tr:nth-child(even) {
 table th.action-column {
     background: rgb(203, 75, 70);
 }
+.descending:after,
+.ascending:after {
+  content: ' ';
+  position: relative;
+  left: 2px;
+  border: 8px solid transparent;
+}
+
+.descending:after {
+  top: 10px;
+  left: 7px;
+  border-top-color: black;
+}
+
+.ascending:after {
+  bottom: 15px;
+  border-bottom-color: black;
+}
+
+.descending,
+.ascending {
+  padding-right: 10px;
+}

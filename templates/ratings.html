@@ -1,0 +1,29 @@
+{% extends 'layout.html' %}
+{% block body %}
+<section>
+        <h1 class="title text-center">Ratings</h1>
+        <div class="card">
+            <table id="my-table">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th class="action-column">Rating</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for show in rating_shows %}
+                    <tr>
+                        <td>{{ show['title'] }}</td>
+                        {% set substract = show['substract']|float|round(2,'floor') %}
+                        {% if substract > 0 %}
+                            <td>+{{ substract }}</td>
+                        {% else %}
+                            <td>{{ substract }}</td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+{% endblock %}
