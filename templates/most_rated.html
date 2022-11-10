@@ -1,0 +1,67 @@
+{% extends 'layout.html' %}
+{% block body %}
+    <section>
+        <h1 class="title text-center">Shows</h1>
+        <div class="card">
+            <table id="my-table">
+                <thead>
+                <tr>
+                    <th data-index="0">Title</th>
+                    <th data-index="1">Year</th>
+                    <th data-index="2">Runtime (min)</th>
+                    <th data-index="3">Rating</th>
+                    <th>Genres</th>
+                    <th>Trailer</th>
+                    <th class="action-column">Homepage</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for show in most_rated_shows %}
+                    <tr>
+                        <td><a href="/show/{{ show['id'] }}">{{ show['title'] }}</a></td>
+                        <td>{{ show['year'] }}</td>
+                        <td>{{ show['runtime'] }}</td>
+                        <td>{{ show['rating'] }}</td>
+                        <td>{{ show['genres'] }}</td>
+                        <td>
+                            {% if show.trailer %}
+                                <a href="{{ show['trailer'] }}">Trailer</a>
+                            {% else %}
+                                No URL
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if show.homepage %}
+                                <a href="{{ show['homepage'] }}">Homepage</a>
+                            {% else %}
+                                No URL
+                            {% endif %}
+                        </td>
+
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="page-select">
+            {% if 'most-rated' in url %}
+                {% set link = '/shows/most-rated' %}
+            {% else %}
+                {% set link = '/shows' %}
+            {% endif %}
+            {% if page != 1 %}
+                <a href="{{ link }}/{{ page - 1 }}"><<</a>
+            {% endif %}
+            {% for shown_page in shown_pages %}
+                {% if shown_page == page %}
+                    <B>{{ shown_page }}</B>
+                {% else %}
+                    <a href="{{ link }}/{{ shown_page }}">{{ shown_page }}</a>
+                {% endif %}
+            {% endfor %}
+            {% if page != page_count %}
+                <a href="{{ link }}/{{ page + 1 }}">>></a>
+            {% endif %}
+        </div>
+    </section>
+{% endblock %}

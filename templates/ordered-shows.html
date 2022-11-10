@@ -1,0 +1,30 @@
+{% extends 'layout.html' %}
+{% block body %}
+<section>
+        <h1 class="title text-center">Ordered shows</h1>
+        <div class="card">
+            <table id="my-table">
+                <thead>
+                <tr>
+                    <th><a href="/ordered-shows?sort={{ "desc" if sort == "asc" }}{{ "asc" if sort == "desc" }}">
+                        Title</a></th>
+                    <th><a href="/ordered-shows?sort={{ "desc" if sort == "asc" }}{{ "asc" if sort == "desc" }}">
+                        Rating</a></th>
+                    <th class="action-column"><a href="/ordered-shows?sort={{ "desc" if sort == "asc" }}{{ "asc" if sort == "desc" }}">
+                        Counted episodes show</a></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for show in ordered_shows %}
+                    <tr>
+                        <td>{{ show['title'] }}</td>
+                        {% set rating = show['rounded_rating']|int %}
+                        <td>{{ "*" * rating }}</td>
+                        <td>{{ show['counted_shows'] }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+{% endblock %}

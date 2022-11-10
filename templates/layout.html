@@ -6,14 +6,15 @@
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
 
     <title>CsED</title>
-
+    <script src="https://www.youtube.com/iframe_api"></script>
     <!-- Import Montserrat font -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <script type="module" src="{{ url_for('static', filename='js/sort.js') }}" defer></script>
+    <script type="module" src="{{ url_for('static', filename='js/actors.js') }}" defer></script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
     <!-- Normalize.css fixes lot of differences between browsers default styles -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css"/>
-
     <!-- project wide styling -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style/site.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='style/header.css') }}">
@@ -40,28 +41,61 @@
             <button type="button" id="bt-login">Login</button>
         </div>
     </header>
+{% block body %}
     <section>
-        <h1 class="title text-center">Welcome page</h1>
-        <div class="card">
-            <h2>Welcome TV show lovers!</h2>
-            <p>This great site is happy to bring you your favourite TV show's <i>details</i>.</p>
-            <p></p>
-            <p>Okay, actually this is a designed dumb page without any logic.</p>
-            <p>You can find a navigational element, the so called "breadcrumb" above the page's title. Use it for
-                in-depth
-                navigation.
-            </p>
-        </div>
-        <div class="card">
-            <ul>
-                {% for show in shows %}
-                    <li>
-                        <a href={{ '/show/' + (show['id'] | string) }}>{{ show['title'] }}</a>
-                    </li>
-                {% endfor %}
-            </ul>
+        <div class="card detailed-view">
+        {% for show in shows %}
+            <div class="row">
+                <video src="{{ show['trailer'] }}" class="poster col col-third" controls></video>
+                <div class="col col-twothird">
+                        <h2>{{ show.title }}</h2>
+                    <p class="small grayed">
+                        {% if show['runtime'] // 60 != 0 %}
+                            {{ show['runtime'] // 60 }}h
+                        {% endif %}
+                        {% if show['runtime'] % 60 != 0 %}
+                            {{ show['runtime'] % 60 }}min
+                        {% endif %}
+                        <span class="separator">|</span>{{ show.genres }}</p>
+                    <p>{{ show.overview }}</p>
+                </div>
+            </div>
+            <div>
+                <p><b>Rating:</b>&nbsp;{{ show.rating }} ☆</p>
+            {% endfor %}
+                <p><b>Stars:</b>&nbsp;{{ characters }}</p>
+            </div>
         </div>
     </section>
+    <section>
+        <h1 class="title text-center">Seasons</h1>
+        <div class="card">
+           <table>
+               <thead>
+                    <tr>
+                        <th>&nbsp</th>
+                        <th>Title</th>
+                        <th class="action-column">Overview</th>
+                    </tr>
+               </thead>
+               <tbody>
+                    {% for season in seasons %}
+                        <tr>
+                            <td>{{ season['season_number'] }}</td>
+                            <td>{{ season['title'] }}</td>
+                            {% if season.overview %}
+                                <td>{{ season['overview'] }}</td>
+                            {% else %}
+                                <td></td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+               </tbody>
+           </table>
+        </div>
+
+    </section>
+{% endblock %}
     <footer>
         Copyright, bla-bla
     </footer>
@@ -70,5 +104,6 @@
     <div class="dark-blue-layer"></div>
     <div class="light-blue-layer"></div>
 </div>
+<script type="text/javascript" src="{{ url_for('static', filename='js/embed-youtube.js') }}"></script>
 </body>
 </html>
