@@ -152,6 +152,34 @@ def ordered_shows(sort):
 
 
 
+def most_rated_actors_by_show():
+    return data_manager.execute_select(
+        '''
+            SELECT
+            actors.id,
+            name,
+            birthday,
+            COUNT(shows.title) as number_of_shows
+            from actors
+            join show_characters on show_characters.actor_id = actors.id
+            join shows on shows.id = show_characters.show_id
+            group by actors.id
+            order by number_of_shows desc
+            limit 20
+    
+        ''')
+
+def show_actors_from_shows(actor_id):
+    return data_manager.execute_select(
+        '''
+            SELECT
+            shows.title
+            from shows
+            join show_characters on shows.id = show_characters.show_id
+            join actors on actors.id = show_characters.actor_id
+            where actors.id = %(actor_id)s
+        ''', {'actor_id': actor_id}, False)
+
 
 
 

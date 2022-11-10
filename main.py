@@ -60,6 +60,17 @@ def design():
 
 
 
+@app.route('/stars')
+def most_rated_actors_by_show():
+    most_rated_actors_by_show = queries.most_rated_actors_by_show()
+    print(most_rated_actors_by_show)
+    return render_template('stars.html')
+
+@app.route('/api/actor-shows/')
+def twenty_actors_shows():
+    return queries.most_rated_actors_by_show()
+
+
 
 
 # -----------------------------------------------------------------------------------------------------
@@ -73,6 +84,7 @@ def get_action_show():
         return queries.get_action_titles()
 
 
+# show_actors_from_shows
 
 # -----------------------------------------------------------------------------------------------------
 #PINGWINY + MODAL + FETCH
