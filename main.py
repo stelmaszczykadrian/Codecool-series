@@ -60,18 +60,52 @@ def design():
 
 
 
+
+
+
+
+
+
+# -----------------------------------------------------------------------------------------------------
+@app.route('/list-of-shows')
+def list_of_shows():
+    data = queries.shows()
+    print(data)
+    return render_template('test.html', shows=data)
+
+
+
+@app.route('/api/genre/shows<int:id>')
+def genres_to_show(id):
+    genres_show = queries.genres_to_show(id)
+    season_titles = queries.season_titles(id)
+    actors_to_shows = queries.actors_to_shows(id)
+    return {'genres_show': genres_show, 'season_titles': season_titles, 'actors_to_shows': actors_to_shows}
+
+
+# @app.route('/api/seasons/titles<int:id>')
+# def get_season_titles(id):
+#     season_titles = queries.season_titles(id)
+#     print(season_titles)
+#     return season_titles
+# -----------------------------------------------------------------------------------------------------
+# EGZAMIN
+
 @app.route('/stars')
 def most_rated_actors_by_show():
-    most_rated_actors_by_show = queries.most_rated_actors_by_show()
-    print(most_rated_actors_by_show)
-    return render_template('stars.html')
+    # return render_template('stars.html')
+    # return render_template('stars-three.html')
+    return render_template('stars-two.html')
 
 @app.route('/api/actor-shows/')
 def twenty_actors_shows():
     return queries.most_rated_actors_by_show()
 
 
-
+@app.route('/api/actor-shows/<int:actor_id>')
+def twenty_actors_shows_by_id(actor_id):
+    print(actor_id)
+    return queries.show_actors_from_shows(actor_id)
 
 # -----------------------------------------------------------------------------------------------------
 #ACTION GENRES + MODAL + FETCH
@@ -112,6 +146,25 @@ def characters_from_house():
 @app.route('/api/house-show/<int:actor_id>')
 def show_actors_from_house(actor_id):
     return queries.show_actors_from_house(actor_id)
+
+
+# -----------------------------------------------------------------------------------------------------
+#HOUSE- DOUBLE FETCH ON BUTTON
+
+@app.route('/house/two')
+def get_button_for_chars():
+    return render_template('house-two.html')
+
+
+@app.route('/api/house-characters/')
+def chars_from_house():
+    characters = queries.show_character_from_house(1399)
+    return characters
+
+@app.route('/api/house-characters/<int:actor_id>')
+def series_from_house(actor_id):
+    return queries.show_actors_from_house(actor_id)
+
 
 # -----------------------------------------------------------------------------------------------------
 #INPUT FROM TO + MODAL + FETCH
