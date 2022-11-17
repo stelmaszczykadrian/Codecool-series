@@ -61,7 +61,16 @@ def design():
 
 #START PA2
 
+@app.route('/input-shows', methods=['GET'])
+def input_shows():
+    if request.method == 'GET':
+        return render_template('PA2.html')
 
+@app.route('/api/series/date')
+def data_from_api():
+    start = request.args.get('from')
+    end = request.args.get('to')
+    return queries.series_with_date(start,end)
 
 
 

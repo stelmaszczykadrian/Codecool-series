@@ -150,9 +150,21 @@ def ordered_shows(sort):
 
 
 
-
-
-
+# egzamin pa2
+def series_with_date(date_from, date_to):
+    return data_manager.execute_select(
+        '''
+            SELECT
+            shows.year,
+            shows.title,
+            COUNT(seasons.season_number) as counted_seasons
+            FROM shows
+            join seasons on seasons.show_id = shows.id
+            WHERE year BETWEEN %(date_from)s AND %(date_to)s
+            GROUP BY shows.title,shows.year
+            order by counted_seasons desc
+        ''', {'date_from': date_from, 'date_to': date_to}
+    )
 
 
 # --------------------------------------------------------------
@@ -206,6 +218,7 @@ def get_shows_from_to(date_from, date_to):
         '''
         SELECT title
         FROM shows
+        join seasons on 
         WHERE year BETWEEN %(date_from)s AND %(date_to)s;
         ''', {'date_from': date_from, 'date_to': date_to}
     )
