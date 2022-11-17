@@ -152,6 +152,11 @@ def ordered_shows(sort):
 
 
 
+
+
+
+# --------------------------------------------------------------
+# --- EGZAMIN ---
 def most_rated_actors_by_show():
     return data_manager.execute_select(
         '''
@@ -243,3 +248,47 @@ def show_actors_from_house(actor_id):
 
 
 # Jeżeli zwraca jeden element to fetch one , a nie fetch all
+
+def shows():
+    return data_manager.execute_select(
+        '''
+            SELECT
+            id,
+            title
+            from shows
+            limit 50
+        ''')
+
+def genres_to_show(show_id):
+    return data_manager.execute_select(
+        '''
+            Select
+            genres.name
+            from genres
+            join show_genres ON show_genres.genre_id = genres.id
+            join shows on shows.id = show_genres.show_id
+            where shows.id = %(show_id)s
+        ''', {'show_id': show_id})
+
+def season_titles(show_id):
+    return data_manager.execute_select(
+        '''
+            SELECT
+            seasons.title
+            from seasons
+            join shows ON shows.id = seasons.show_id
+            where shows.id = %(show_id)s
+            order by seasons.title asc
+        ''', {'show_id': show_id})
+
+
+def actors_to_shows(show_id):
+    return data_manager.execute_select(
+        '''
+            select name
+            from actors
+            join show_characters ON show_characters.actor_id = actors.id
+            join shows on shows.id = show_characters.show_id
+            where shows.id = %(show_id)s
+        ''', {'show_id': show_id})
+

@@ -1,31 +1,53 @@
-const button = Array.from(document.querySelectorAll('.shows-stars-button'))
+const button = document.querySelector('.shows-stars-button')
+const tbodyActors = document.querySelector(".tbody-actors")
 
-console.log(button)
+button.addEventListener('click', () => {
+    item()
 
-button.forEach(x => x.addEventListener('click', item))
+})
 
-function item(e) {
+function item() {
     fetch('/api/actor-shows/')
         .then(response => response.json())
-        .then(response => notetoTable(response))
-        .then(x => {
-            console.log(x)
-        })
+        .then(data => ActorsTable(data))
+        .then(data => getMoviesFromActors())
+}
+
+function ModalBuilder (titles) {
+    let ul = document.getElementById('list_of_action_shows')
+    ul.innerHTML = ''
+    titles.forEach(title => {
+        ul.innerHTML += `
+        <li>${title['title']}</li>
+        
+        `
+        $('#ActorsModal').modal('show')
+    })
+}
+
+function ActorsTable(data) {
+    tbodyActors.innerHTML = ''
+    let arrayData = [...data]
+    arrayData.forEach(actor => {
+        let tableData = `
+        <tr>    
+        <td class="actors" data-id="${actor['id']}">${actor['name']}</td>
+        <td>${actor['birthday']}</td>
+        <td>${actor['number_of_shows']}</td>
+        </tr>`
+        tbodyActors.innerHTML += tableData
+    })
 
 }
 
-function notetoTable(response) {
-    let tBody = document.querySelector('table#list_of_twenty_actors tbody')
-    response.forEach(x => {
-        let tr= document.createElement('tr')
-        const headers = ['name', 'birthday', 'number_of_shows']
-        for (let header of headers) {
-            let td= document.createElement('td')
-            td.innerText = x[header]
-            tr.appendChild(td)
-
-        }
-        tBody.appendChild(tr)
-
+function getMoviesFromActors() {
+    let actors = Array.from(document.getElementsByClassName('actors'))
+    actors.forEach(actor=> {
+        actor.addEventListener('click', () => {
+            let id = actor.dataset.id
+            fetch(`/api/actor-shows/${id}`)
+            .then(response => response.json())
+                .then(data => ModalBuilder(data))
+        })
     })
-        }
+}
