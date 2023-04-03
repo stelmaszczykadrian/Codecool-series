@@ -1,6 +1,6 @@
 {% extends 'layout.html' %}
 {% block body %}
-<section>
+    <section>
         <h1 class="title text-center">Ordered shows</h1>
         <div class="card">
             <table id="my-table">
@@ -10,7 +10,8 @@
                         Title</a></th>
                     <th><a href="/ordered-shows?sort={{ "desc" if sort == "asc" }}{{ "asc" if sort == "desc" }}">
                         Rating</a></th>
-                    <th class="action-column"><a href="/ordered-shows?sort={{ "desc" if sort == "asc" }}{{ "asc" if sort == "desc" }}">
+                    <th class="action-column"><a
+                            href="/ordered-shows?sort={{ "desc" if sort == "asc" }}{{ "asc" if sort == "desc" }}">
                         Counted episodes show</a></th>
                 </tr>
                 </thead>

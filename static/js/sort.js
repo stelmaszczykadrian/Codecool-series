@@ -8,7 +8,6 @@ function sortColumn(e) {
   }
   let columnIndex = columnHeader.dataset.index;
   let asc = columnHeader.classList.contains('ascending');
-  // resetHeaders(columnIndex)
   sortTable(columnIndex, asc);
 
   if (asc) {
@@ -47,7 +46,3 @@ function compare(a, b, columnIndex) {
     }
     return 0;
 }
-
-// function resetHeaders(columnIndex) {
-//     let filteredHeaders = headers.filter(x => )
-// }

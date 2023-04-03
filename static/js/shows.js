@@ -4,15 +4,10 @@ shows.forEach(show => {
     show.addEventListener('click', item => {
         let id = item.target.dataset.id
         fetch_genres(id)
-        // fetch_titles(id)
     })
 })
 
-// function fetch_titles(id) {
-//         fetch(`api/seasons/titles${id}`)
-//         .then(response => response.json())
-//             .then(data => TitlesToModal(data))
-// }
+
 function fetch_genres(id) {
     fetch(`api/genre/shows${id}`)
     .then(response => response.json())
@@ -42,11 +37,6 @@ function LetsTest(data) {
     })
     $('#ModalWithInfo').modal('show')
 }
-
-
-
-
-
 
 
 function GenresToModal(data) {
