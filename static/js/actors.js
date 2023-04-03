@@ -2,7 +2,7 @@ const actor= Array.from(document.getElementsByClassName('actors'))
 
 actor.forEach(x => x.addEventListener('click', item))
 
-// e.target = musze miec przekazany event i wtedy target to jest to co klikne
+
 function item(e) {
     console.log(e.target.dataset.id)
     fetch(`/api/actor-shows/${e.target.dataset.id}`)
@@ -21,6 +21,5 @@ function noteToModal(response, title) {
         li.innerText = x.title
         modal.appendChild(li);
     })
-    // wyciąga mi element z identyfikatorem #exampleModal i wywołuje na nim funkcję modal z parametrem 'show'
     $('#exampleModal').modal('show')
 }
